@@ -26,12 +26,14 @@ function TodoList() {
     }
 
     const removeTodo = id => {
+        //poistetaan todo listasta
         const removeArr = [...todos].filter(todo => todo.id !== id)
 
         setTodos(removeArr);
     }
 
     const completeTodo = id => {
+        //merkataan todo tehdyksi/ei tehdyksi
         let updateTodos = todos.map(todo => {
             if (todo.id === id) {
                 todo.isComplete = !todo.isComplete;
@@ -42,7 +44,7 @@ function TodoList() {
     };
 
     return (
-        <div>
+        <divv data-testid='todo-list'>
             <h1>ToDo -lista</h1>
             <TodoForm onSubmit={addTodo}/>
             <Todo 
