@@ -1,60 +1,62 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import TodoForm from './TodoForm';
 import Todo from './Todo';
 
 function TodoList() {
-    const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState([]);
 
-    const addTodo = todo => {
-        //poistetaan ylimääräiset välilyönnit tekstistä
-        if (!todo.text || /^\s*$/.test(todo.text)) {
-            return;
-        };
-
-        const newTodos = [todo, ...todos];
-
-        setTodos(newTodos);
+  const addTodo = (todo) => {
+    //poistetaan ylimääräiset välilyönnit tekstistä
+    if (!todo.text || /^\s*$/.test(todo.text)) {
+      return;
     }
 
-    const updateTodo = (todoId, newValue) => {
-        //poistetaan ylimääräiset välilyönnit tekstistä
-        if (!newValue.text || /^\s*$/.test(newValue.text)) {
-            return;
-        };
+    const newTodos = [todo, ...todos];
 
-        setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
+    setTodos(newTodos);
+  };
+
+  const updateTodo = (todoId, newValue) => {
+    //poistetaan ylimääräiset välilyönnit tekstistä
+    if (!newValue.text || /^\s*$/.test(newValue.text)) {
+      return;
     }
 
-    const removeTodo = id => {
-        //poistetaan todo listasta
-        const removeArr = [...todos].filter(todo => todo.id !== id)
+    setTodos((prev) =>
+      prev.map((item) => (item.id === todoId ? newValue : item))
+    );
+  };
 
-        setTodos(removeArr);
-    }
+  const removeTodo = (id) => {
+    //poistetaan todo listasta
+    const removeArr = [...todos].filter((todo) => todo.id !== id);
 
-    const completeTodo = id => {
-        //merkataan todo tehdyksi/ei tehdyksi
-        let updateTodos = todos.map(todo => {
-            if (todo.id === id) {
-                todo.isComplete = !todo.isComplete;
-            }
-            return todo;
-        });
-        setTodos(updateTodos);
-    };
+    setTodos(removeArr);
+  };
 
-    return (
-        <divv data-testid='todo-list'>
-            <h1>ToDo -lista</h1>
-            <TodoForm onSubmit={addTodo}/>
-            <Todo 
-            todos={todos}
-            completeTodo={completeTodo}
-            removeTodo={removeTodo}
-            updateTodo={updateTodo}
-            />
-        </div>
-    )
+  const completeTodo = (id) => {
+    //merkataan todo tehdyksi/ei tehdyksi
+    let updateTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isComplete = !todo.isComplete;
+      }
+      return todo;
+    });
+    setTodos(updateTodos);
+  };
+
+  return (
+    <div data-testid="todo-list">
+      <h1>ToDo -lista</h1>
+      <TodoForm onSubmit={addTodo} />
+      <Todo
+        todos={todos}
+        completeTodo={completeTodo}
+        removeTodo={removeTodo}
+        updateTodo={updateTodo}
+      />
+    </div>
+  );
 }
 
-export default TodoList
+export default TodoList;
